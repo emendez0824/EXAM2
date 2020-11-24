@@ -1,0 +1,58 @@
+library("sandwich")
+library("lmtest")
+load("acs2017_ny_data.RData")
+attach(acs2017_ny)
+use_varb <- (AGE >= 25) & (AGE <= 55) & (LABFORCE == 2) & (UHRSWORK > 0 & UHRSWORK < 35) & (female == 1) & ((educ_college == 1) | (educ_advdeg == 1) | (educ_hs) ==1)
+dat_use <- subset(acs2017_ny,use_varb) 
+detach(acs2017_ny)
+attach(dat_use)
+attach(acs2017_ny)
+
+model_temp1 <- lm(INCWAGE ~ AGE + female + educ_college + educ_advdeg + educ_hs)
+model_temp2 <- lm(INCWAGE ~ AGE + educ_college + educ_advdeg + educ_hs)
+summary(model_temp1)
+lm(model_temp1)
+summary(model_temp2)
+lm(model_temp2)
+detach(acs2017_ny)
+
+model_temp3 <- lm(UHRSWORK ~ AGE + I(AGE^2) + (female) + NCHILD + MARST)
+summary(model_temp3)
+lm(model_temp3)
+
+use_varb2 <- (AGE >= 25) & (AGE <= 55) & (LABFORCE == 2) & (UHRSWORK >= 35) & (female == 1)
+dat_use2 <- subset(acs2017_ny,use_varb2)
+model_temp4 <- lm(UHRSWORK ~ AGE + I(AGE^2) + female + NCHILD + MARST + educ_college + educ_advdeg + educ_hs)
+summary(model_temp4)
+lm(model_temp4)
+
+#"B*AGE + B*AGE^2 + B*female + B*NCHILD + B*MARST + B*educ_college + B*educ_advdeg + B*educ_hs
+
+
+Work_fulltime <- lm(UHRSWORK ~ AGE + I(AGE^2) + (female) + NCHILD + MARST + I(NCHILD*MARST), data = dat_use2)
+summary(Work_fulltime)
+
+require("standardize")
+set.seed(654321)
+NNN <- length(dat_for_analysis_sub$Work_Fulltime)
+restrict_2 <- (runif(NNN) < 0.15)
+summary(restrict_2)
+dat_train2 <- subset(dat_for_analysis_sub, restrict_2)
+dat_test2 <- subset(dat_for_analysis_sub, !restrict_2)
+sobj2 <- standardize(Work_Fulltime ~ Age + female + NCHILD + MARST + I(NCHILD*MARST), data = dat_use2) dat_train, family = binomial)
+s_dat_test2 <- predict(sobj2, dat_test2)
+
+
+
+require('randomForest')
+set.seed(54321)
+model_randFor2 <- randomForest(as.factor$Work_Fulltime ~ ., data = sobj2$data, importance=TRUE, proximity=TRUE)
+print(model_randFor2)
+round(importance(model_randFor2),2)
+varImpPlot(model_randFor2)
+pred_model2 <- predict(model_randFor2, s_dat_test2)
+pred_rf<-table(pred = pred_model2, true = dat_test2$NOTCOV)
+print(pred_rf)
+(pred_rf[1,1]+pred_rf[2,2])/sum(pred_rf)
+
+
