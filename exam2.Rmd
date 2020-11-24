@@ -1,0 +1,80 @@
+---
+title: "Exam 2"
+output: html_document
+---
+  
+  <p style="color:rgb(182,18,27);font-family:corbel">Econ B2000, MA Econometrics</p>
+  <p style="color:rgb(182,18,27);font-family:corbel">Kevin R Foster, the Colin Powell School at the City College of New York, CUNY</p>
+  <p style="color:rgb(182,18,27);font-family:corbel">November 23, 2020</p>
+  
+  
+  
+  *The questions are worth 120 points.  You have 120 minutes to do the exam, one point per minute.  
+All answers should submitted electronically. Please submit all relevant computer files as a Slack message to me.  Please no "pages" files, save as pdf or rtf. I prefer .Rmd files __along with knit output__ md or html is fine.
+You may refer to your books, notes, calculator, computer, or astrology table.  The exam is "open book."
+However, you must not refer to anyone else, either in person or electronically, during the exam time. For instance, since these exam questions are newly created, posting questions or copying answers on online homework helping sites or forums (such as Chegg, Yahoo answers or others) is a violation. Don't upload to public GitHub site until end of exam.
+You must do all work on your own.  Cheating is harshly penalized.
+Good luck.  Stay cool.*
+  
+  
+1. (15 points) Please answer the following; you might find it useful to make a sketch.
+  a. For a Normal Distribution that has mean 1 and standard deviation 6.5, what is the area to the left of 1.65?
+  .5398
+  b. For a Normal Distribution that has mean 8 and standard deviation 2.7, what is the area in both tails farther from the mean than 13.67?
+  .064
+  c. For a Normal Distribution that has mean -11 and standard deviation 4, what is the area in both tails farther from the mean than -5.4?
+  1
+  d. For a Normal Distribution that has mean 14 and standard deviation 7.4 what two values leave probability 0.158 in both tails?
+  
+  e. A regression coefficient is estimated to be equal to 6.56 with standard error 4.1; there are 24 degrees of freedom.  What is the p-value (from the t-statistic) against the null hypothesis of zero?
+  .061341
+  f. A regression coefficient is estimated to be equal to -0.24 with standard error 0.4; there are 4 degrees of freedom.  What is the p-value (from the t-statistic) against the null hypothesis of zero?
+  .290421
+
+2. (10 points) As we consider, "did everything change after March 2020?" look at crude oil prices. The average daily return of crude oil was 0.000145 with standard deviation of 0.0213 in 289 days before March 1. Average daily return after that date was -0.0210 with standard deviation of 0.271 in 174 days after. Is there a statistically significant difference in the mean? Calculate t-stat and p-value for the test against no difference in daily returns.
+
+3. (10 points) In good news, there was information about vaccine trials. Consider (these are not quite the actual data but a simplified version) looking at 2 groups, each with 10,000 people. In the control group who did not get the vaccine there were 90 infections. In the test group that did get the vaccine there were 15 infections. Calculate the t-stat and p-value for the test against no difference in infection rates between groups.
+
+The next questions will use the PUMS ACS 2017 NY data that we've been using so often in class. We'll consider people's decisions about usual hours worked, given by the variable UHRSWORK. There are 3 broad categories: people who are not in the labor force, those working part time (UHRSWORK > 0 and < 35) and those working full time ( >= 35). 
+
+4. (10 points) Create a subgroup of the sample, that makes sense as we focus on the decision of whether to work full time or part time. Explain your rationale. 
+
+#The subgroup i selected is females in the labor force between ages 25 and 55 with varying education levels. I would like to test if education levels have an impact on whether or not a female in the labor force makes more money working part time only. We know this to be the case for full time female workers, and i would like to see if there is a significance between education for part time female workers.
+
+5. (10 points) Within this subgroup, test if there is a difference between men and women. Calculate a t-stat and p-value for the test of no difference between the groups. Provide simple statistics for a few other relevant categories.
+
+#The results show that education levels factor into how much a female who works part time makes in one year. Females with at least a college degree make more with higher education levels. Interestingly females with a hs education earn significantly less working part time than females with college degrees. Women also make 16,892 dollars less per year working part time compared to a male working part time with the same education level. Also males with a hs education working part time make more money per year compared to their female counterparts.
+
+6. (20 points) Estimate a simple OLS model for hours worked, within your subsample.
+  a. Explain what variables you choose to use as predictors. Do they seem exogenous? Consider whether polynomials in Age are important or interactions with dummy variables. 
+
+#For my predictors i chose number of children and marital status. I believe these are good predictors because children defenitely play a part in how many hours a person works per week. Child care is expensive and schools let out at different times throughout the city. Marital status is also a good predictor because if a person is single they are more likely to work more hours as they do not have anyone to come home to versus someone in a relationship or with children. The age squared term shows that once a person gets to a certain age the number of hours a week they work will begin to decline as it maxes out at a certain age.
+  b. Do your estimates seem plausible? Are the estimates each statistically significant?
+  
+#Yes these estimates are plausible and number of children is statistically significant as p value is .00118
+#Age is not statistically significant as the p value is 0.51596 
+  c. Construct a joint test of whether a reasonable set of coefficients (such as age polynomials, or education dummies) are all zero.
+  
+  #If our education dummies are set to 0 the other variables become stronger at predicting # of hours worked.
+  d. What are the predicted probabilities for a few particular groups?
+  e. How many Type I and Type II errors are made by the model?
+  
+7. (20 points) Estimate a simple logit model, for the outcome variable Work_Fulltime <- (UHRSWORK >= 35), within your subsample.
+  a. Explain what variables you choose to use as predictors. Do they seem exogenous? Consider whether polynomials in Age are important or interactions with dummy variables.
+#For my predictors i chose number of children and marital status. I believe these are good predictors because children defenitely play a part in how many hours a person works per week. Child care is expensive and schools let out at different times throughout the city. Marital status is also a good predictor because if a person is single they are more likely to work more hours as they do not have anyone to come home to versus someone in a relationship or with children. The age squared term shows that once a person gets to a certain age the number of hours a week they work will begin to decline as it maxes out at a certain age.
+  
+  b. Do your estimates seem plausible? Are the estimates each statistically significant?
+#Marital Status interacting with number of childrenb is statistically significant.
+  c. Construct a joint test of whether a reasonable set of coefficients (such as age polynomials, or education dummies) are all zero.
+  d. What are the predicted probabilities for a few particular groups
+  e. How many Type I and Type II errors are made by the model?
+
+8. (25 points) Estimate one or more additional models with other methods (not OLS or logit) to predict hours or if a person works full time. Explain as in previous. Compare the different models and make judgements about strengths and weaknesses of each.
+
+_All of the work on this exam is my own, answered honestly as rules state._
+<p>Name: Emmanuel Mendez
+<p>Date: 11-23-20
+
+
+
+
